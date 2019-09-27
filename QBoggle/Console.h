@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QTextEdit>
 #include <QWidget>
+#include <iostream>
+using namespace std;
 
 class Console : public QTextEdit
 {

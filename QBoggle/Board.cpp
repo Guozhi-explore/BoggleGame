@@ -1,6 +1,8 @@
 #include "Board.h"
 #include "Cube.h"
-
+#include<QTime>
+#include<qrandom.h>
+#include<QtGlobal>
 #include <QGridLayout>
 
 
@@ -21,11 +23,13 @@ const QString Board::BIG_BOGGLE_CUBES[25]  = {
 
 Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(parent)
 {
+    int select_index;
     this->size = size;
     this->cubes = new Cube*[size * size];
     this->letters = new QString[size * size];
     for (int i = 0; i < size * size; ++i)
         this->letters[i] = cubeLetters[i];
+    shake();
 
     QGridLayout *layout = new QGridLayout();
     layout->setMargin(20);
@@ -39,8 +43,11 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
     setLayout(layout);
 
     for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(0));
+        for (int j = 0; j < size; ++j)
+        {
+            qsrand(QTime(0,0,0).msecsTo(QTime::currentTime())+i*j);
+            select_index=qrand()%(this->letters[index(i,j)].size());
+            this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(select_index));
         }
     }
     // this->setStyleSheet("background-color:grey; border: 3px solid");
@@ -54,5 +61,17 @@ Board::~Board()
 
 void Board::shake()
 {
-    // Shake Cubes
+    QString tmp;
+    int random1,random2;
+    for(int i=0;i<100;++i)
+    {
+        qsrand(QTime(0,0,0).msecsTo(QTime::currentTime())+2*i);
+        random1=qrand()%(this->size*this->size);
+
+        qsrand(QTime(0,0,0).msecsTo(QTime::currentTime())+i);
+        random2=qrand()%(this->size*this->size);
+        tmp=this->letters[random1];
+        this->letters[random1]=this->letters[random2];
+        this->letters[random2]=tmp;
+    }
 }
