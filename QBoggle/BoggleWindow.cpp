@@ -16,11 +16,12 @@ BoggleWindow::BoggleWindow(QWidget *parent)
     computer = new WordListWidget(this, "Computer");
     board = new Board(this);
     console = new Console(this);
-
     me->setGeometry(20, 20, 230, 300);
     board->setGeometry(230, 0, 300, 300);
     computer->setGeometry(800 - 50 - 200, 20, 230, 300);
     console->setGeometry(30, 320, 740, 260);
+
+    this->connect(console,SIGNAL(newLineWritten(QString)),board,SLOT(receiveInput(QString)));
 
     QFile qFile(":/res/EnglishWords.txt");
     if (!qFile.open(QIODevice::ReadOnly)) {

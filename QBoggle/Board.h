@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include "Cube.h"
-
+#include"Console.h"
 #include <QWidget>
 
 class Board : public QWidget
@@ -16,6 +16,7 @@ public:
 signals:
 
 public slots:
+    void receiveInput(QString str);
 
 private:
     int size;
@@ -24,6 +25,7 @@ private:
     inline int index(int i, int j) { return i * size + j; }
     static const QString STANDARD_CUBES[16];
     static const QString BIG_BOGGLE_CUBES[25];
+    humanRecursive(QString string);
 };
 
 #endif // BOARD_H

@@ -4,7 +4,7 @@
 #include<qrandom.h>
 #include<QtGlobal>
 #include <QGridLayout>
-
+#include<QDebug>
 
 const QString Board::STANDARD_CUBES[16]  = {
         "AAEEGN", "ABBJOO", "ACHOPS", "AFFKPS",
@@ -51,6 +51,7 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
         }
     }
     // this->setStyleSheet("background-color:grey; border: 3px solid");
+
 }
 
 Board::~Board()
@@ -74,4 +75,14 @@ void Board::shake()
         this->letters[random1]=this->letters[random2];
         this->letters[random2]=tmp;
     }
+}
+
+void Board::receiveInput(QString str)
+{
+    qDebug()<<str;
+}
+
+void Board::humanRecursive(QString string)
+{
+
 }

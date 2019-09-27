@@ -5,7 +5,9 @@
 
 Console::Console(QWidget *parent) : QTextEdit(parent)
 {
+
 }
+
 
 void Console::clear()
 {
