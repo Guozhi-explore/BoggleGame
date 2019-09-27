@@ -4,6 +4,7 @@
 #include "Cube.h"
 #include"Console.h"
 #include <QWidget>
+#include"lexicon.h"
 
 class Board : public QWidget
 {
@@ -25,7 +26,8 @@ private:
     inline int index(int i, int j) { return i * size + j; }
     static const QString STANDARD_CUBES[16];
     static const QString BIG_BOGGLE_CUBES[25];
-    humanRecursive(QString string);
+    bool humanRecursive(QString string);
+    bool recursive(QString string,int start,QVector<int>path);
 };
 
 #endif // BOARD_H

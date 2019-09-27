@@ -10,12 +10,14 @@ class Cube : public QWidget
 public:
     explicit Cube(QWidget *parent = nullptr);
     void setLetter(QString l);
+    QString getLetter();
 
 signals:
 
 public slots:
 
 private:
+    QString letter;
     QLabel *label;
 };
 

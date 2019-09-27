@@ -21,5 +21,11 @@ Cube::Cube(QWidget *parent) : QWidget(parent)
 
 void Cube::setLetter(QString l)
 {
+    letter=l;
     label->setText(l);
+}
+
+QString Cube::getLetter()
+{
+    return this->letter;
 }

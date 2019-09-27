@@ -3,6 +3,7 @@
 #include<QTime>
 #include<qrandom.h>
 #include<QtGlobal>
+#include<QVector>
 #include <QGridLayout>
 #include<QDebug>
 
@@ -23,7 +24,6 @@ const QString Board::BIG_BOGGLE_CUBES[25]  = {
 
 Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(parent)
 {
-    int select_index;
     this->size = size;
     this->cubes = new Cube*[size * size];
     this->letters = new QString[size * size];
@@ -45,9 +45,7 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j)
         {
-            qsrand(QTime(0,0,0).msecsTo(QTime::currentTime())+i*j);
-            select_index=qrand()%(this->letters[index(i,j)].size());
-            this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(select_index));
+            this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(0));
         }
     }
     // this->setStyleSheet("background-color:grey; border: 3px solid");
@@ -62,27 +60,62 @@ Board::~Board()
 
 void Board::shake()
 {
-    QString tmp;
-    int random1,random2;
-    for(int i=0;i<100;++i)
+    QVector<QChar> vec;
+    int r;
+    QChar temp;
+    for(int i=0;i<size*size;++i)
     {
-        qsrand(QTime(0,0,0).msecsTo(QTime::currentTime())+2*i);
-        random1=qrand()%(this->size*this->size);
-
+        for(int j=0;j<letters[i].size();++j)
+            vec.append(letters[i].at(j));
+    }
+    for(int i=0;i<vec.size();++i)
+    {
         qsrand(QTime(0,0,0).msecsTo(QTime::currentTime())+i);
-        random2=qrand()%(this->size*this->size);
-        tmp=this->letters[random1];
-        this->letters[random1]=this->letters[random2];
-        this->letters[random2]=tmp;
+        r=i+qrand()%(vec.size()-i);
+        temp=vec[i];
+        vec[i]=vec[r];
+        vec[r]=temp;
+    }
+    for(int i=0;i<size*size;++i)
+    {
+        for(int j=0;j<letters[i].size();++j)
+        {
+            letters[i].replace(j,1,vec[i*size+j]);
+        }
     }
 }
 
 void Board::receiveInput(QString str)
 {
+    QFile qFile(":/res/EnglishWords.txt");
+    if (!qFile.open(QIODevice::ReadOnly)) {
+        throw new std::runtime_error("Resource file not found!");
+    }
+    Lexicon lex(qFile);
+    if(lex.containsPrefix(str.toStdString()))
     qDebug()<<str;
+   // humanRecursive(str);
 }
 
-void Board::humanRecursive(QString string)
+bool Board::humanRecursive(QString string)
 {
+    bool exist=false;
+    QVector<int> path;
+    for(int i=0;i<size*size;++i)
+    {
+        if(recursive(string,i,path)==true)
+            exist=true;
+    }
+    return exist;
+}
+
+bool Board::recursive(QString string, int start,QVector<int> path)
+{
+    bool exist=false;
+    if(string.at(0)!=this->cubes[start]->getLetter().at(0))
+    {
+        return false;
+    }
+
 
 }
