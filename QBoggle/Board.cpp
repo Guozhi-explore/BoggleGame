@@ -94,28 +94,57 @@ void Board::receiveInput(QString str)
     Lexicon lex(qFile);
     if(lex.containsPrefix(str.toStdString()))
     qDebug()<<str;
-   // humanRecursive(str);
+    str=str.toUpper();
+    qDebug()<<str;
+    if(humanRecursive(str))
+    {
+        qDebug()<<"[find]  "<<str;
+        for(int i=0;i<letterPath.size();++i)
+        {
+            qDebug()<<letterPath.at(i);
+        }
+    }
 }
 
 bool Board::humanRecursive(QString string)
 {
-    bool exist=false;
     QVector<int> path;
     for(int i=0;i<size*size;++i)
     {
-        if(recursive(string,i,path)==true)
-            exist=true;
+        if(recursive(string,0,i,path)==true)
+            return true;
     }
-    return exist;
+    return false;
 }
 
-bool Board::recursive(QString string, int start,QVector<int> path)
+bool Board::recursive(QString string,int index, int start,QVector<int> path)
 {
-    bool exist=false;
-    if(string.at(0)!=this->cubes[start]->getLetter().at(0))
+    int adjacent;
+    if(string.at(index)!=this->cubes[start]->getLetter().at(0))
     {
         return false;
     }
-
-
+    else{
+        qDebug()<<path.size();
+        path.append(start);
+        if(index==string.size()-1)
+        {
+            letterPath=path;
+            return true;
+        }
+        for(int row=-1;row<=1;++row)
+        {
+            for(int column=-1; column<=1;++column)
+            {
+                adjacent=start+row*size+column;
+                if(path.contains(adjacent))
+                    continue;
+                if(adjacent<0||adjacent>=size*size)
+                    continue;
+                if(recursive(string,index+1,adjacent,path)==true)
+                    return true;
+            }
+        }
+    }
+    return false;
 }

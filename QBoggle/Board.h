@@ -23,11 +23,12 @@ private:
     int size;
     Cube **cubes;
     QString *letters;
+    QVector<int> letterPath;
     inline int index(int i, int j) { return i * size + j; }
     static const QString STANDARD_CUBES[16];
     static const QString BIG_BOGGLE_CUBES[25];
     bool humanRecursive(QString string);
-    bool recursive(QString string,int start,QVector<int>path);
+    bool recursive(QString string,int index,int start,QVector<int>path);
 };
 
 #endif // BOARD_H
