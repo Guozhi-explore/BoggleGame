@@ -12,7 +12,7 @@ WordListWidget::WordListWidget(QWidget *parent, QString label) : QWidget(parent)
     QHBoxLayout *headLayout = new QHBoxLayout();
 
     QLabel *nameLabel = new QLabel(this);
-    QLabel *scoreLabel = new QLabel(this);
+    scoreLabel = new QLabel(this);
     QFont font = nameLabel->font();
     font.setPointSize(20);
     nameLabel->setFont(font);
@@ -38,7 +38,7 @@ WordListWidget::WordListWidget(QWidget *parent, QString label) : QWidget(parent)
 void WordListWidget::addScore(int score)
 {
     this->score += score;
-   // scoreLabel->setText(QString::number(score));
+    scoreLabel->setText(QString::number(this->score));
 }
 void WordListWidget::addWord(QString word)
 {

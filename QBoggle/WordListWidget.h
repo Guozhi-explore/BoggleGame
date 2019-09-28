@@ -4,6 +4,9 @@
 #include "WordTable.h"
 
 #include <QWidget>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QTableView>
 
 class WordListWidget : public QWidget
 {
@@ -22,7 +25,7 @@ private:
     QList<QString> words;
     int score;
     WordTable *wordTable;
-    //QLabel *scoreLabels;
+    QLabel *scoreLabel;
 };
 
 #endif // WORDLISTWIDGET_H
