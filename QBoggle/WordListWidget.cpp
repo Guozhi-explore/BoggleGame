@@ -6,8 +6,8 @@
 
 WordListWidget::WordListWidget(QWidget *parent, QString label) : QWidget(parent)
 {
-    reset();
-
+    this->score = 0;
+     this->words.clear();
     QVBoxLayout *layout = new QVBoxLayout();
     QHBoxLayout *headLayout = new QHBoxLayout();
 
@@ -49,7 +49,9 @@ void WordListWidget::addWord(QString word)
 void WordListWidget::reset()
 {
     this->score = 0;
+    scoreLabel->setText(QString::number(this->score));
     this->words.clear();
+    this->wordTable->clear();
 }
 
 

@@ -10,7 +10,8 @@
 class BoggleWindow : public QMainWindow
 {
     Q_OBJECT
-
+public slots:
+    void replay();
 public:
     BoggleWindow(QWidget *parent = 0);
     ~BoggleWindow();

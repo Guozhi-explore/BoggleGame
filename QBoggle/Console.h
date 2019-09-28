@@ -16,6 +16,7 @@ public:
 signals:
     void newLineWritten(QString newline);
     void extinguishSeletedWords();
+    void replay();
 
 public slots:
     void clear();

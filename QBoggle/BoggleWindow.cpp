@@ -27,12 +27,7 @@ BoggleWindow::BoggleWindow(QWidget *parent)
     this->connect(console,SIGNAL(extinguishSeletedWords()),board,SLOT(extinguishSeletedWords()));
     this->connect(board,SIGNAL(addScoreOfComputer(int)),computer,SLOT(addScore(int)));
     this->connect(board,SIGNAL(addWordToComputer(QString)),computer,SLOT(addWord(QString)));
-
-    QFile qFile(":/res/EnglishWords.txt");
-    if (!qFile.open(QIODevice::ReadOnly)) {
-        throw new std::runtime_error("Resource file not found!");
-    }
-    Lexicon lex(qFile);
+    this->connect(console,SIGNAL(replay()),this,SLOT(replay()));
 
     /*
     for (std::string s: lex) {
@@ -44,4 +39,12 @@ BoggleWindow::BoggleWindow(QWidget *parent)
 
 BoggleWindow::~BoggleWindow()
 {
+}
+
+void BoggleWindow::replay()
+{
+    me->reset();
+    computer->reset();
+    board->shake();
+    console->write("welcome to play Boggle again!\n");
 }

@@ -29,11 +29,11 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
     this->letters = new QString[size * size];
     for (int i = 0; i < size * size; ++i)
         this->letters[i] = cubeLetters[i];
-    shake();
 
     QGridLayout *layout = new QGridLayout();
     layout->setMargin(20);
     layout->setSpacing(10);
+
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             this->cubes[index(i, j)] = new Cube(this);
@@ -42,12 +42,8 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
     }
     setLayout(layout);
 
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j)
-        {
-            this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(0));
-        }
-    }
+    shake();
+
     // this->setStyleSheet("background-color:grey; border: 3px solid");
     QFile qFile(":/res/EnglishWords.txt");
     if (!qFile.open(QIODevice::ReadOnly)) {
@@ -86,6 +82,13 @@ void Board::shake()
         for(int j=0;j<letters[i].size();++j)
         {
             letters[i].replace(j,1,vec[i*size+j]);
+        }
+    }
+
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j)
+        {
+            this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(0));
         }
     }
 }
@@ -141,7 +144,7 @@ bool Board::recursive(QString string,int index, int start,QVector<int> path)
                 /* skip the case when adjacent has been used*/
                 if(path.contains(adjacent))
                     continue;
-                if(adjacent<0||adjacent>=size*size)
+                if(adjacent<0||adjacent>=size*size||((adjacent%size==0&&start%size==size-1)||(adjacent%size==size-1&&start%size==0)))
                     continue;
                 if(recursive(string,index+1,adjacent,path)==true)
                     return true;
@@ -198,7 +201,7 @@ void Board::computerrecursive(QString string, int start, QVector<int> path)
             for(int column=-1;column<=1;++column)
             {
                 adjacent=start+row*size+column;
-                if(adjacent>=0&&adjacent<size*size&&!path.contains(adjacent))
+                if(adjacent>=0&&adjacent<size*size&&!path.contains(adjacent)&&!((adjacent%size==0&&start%size==size-1)||(adjacent%size==size-1&&start%size==0)))
                 {
                     computerrecursive(string,adjacent,path);
                 }
