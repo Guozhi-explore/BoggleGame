@@ -13,11 +13,14 @@ public:
     explicit Board(QWidget *parent = nullptr, int size = 5, const QString *cubeLetters = BIG_BOGGLE_CUBES);
     virtual ~Board();
     void shake();
+    void lightSeletedWords();
 
 signals:
-
+    void addScoreOfMe(int score);
+    void addWordToMe(QString word);
 public slots:
     void receiveInput(QString str);
+    void extinguishSeletedWords();
 
 private:
     int size;

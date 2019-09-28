@@ -92,17 +92,17 @@ void Board::receiveInput(QString str)
         throw new std::runtime_error("Resource file not found!");
     }
     Lexicon lex(qFile);
-    if(lex.containsPrefix(str.toStdString()))
-    qDebug()<<str;
+    if(str.size()>=4&&lex.containsPrefix(str.toStdString()))
+    {
+
+    }
     str=str.toUpper();
-    qDebug()<<str;
     if(humanRecursive(str))
     {
-        qDebug()<<"[find]  "<<str;
-        for(int i=0;i<letterPath.size();++i)
-        {
-            qDebug()<<letterPath.at(i);
-        }
+        this->addScoreOfMe(str.size()-3);
+        this->addWordToMe(str);
+        /*light suitable words in the board*/
+        this->lightSeletedWords();
     }
 }
 
@@ -125,7 +125,6 @@ bool Board::recursive(QString string,int index, int start,QVector<int> path)
         return false;
     }
     else{
-        qDebug()<<path.size();
         path.append(start);
         if(index==string.size()-1)
         {
@@ -137,6 +136,7 @@ bool Board::recursive(QString string,int index, int start,QVector<int> path)
             for(int column=-1; column<=1;++column)
             {
                 adjacent=start+row*size+column;
+                /* skip the case when adjacent has been used*/
                 if(path.contains(adjacent))
                     continue;
                 if(adjacent<0||adjacent>=size*size)
@@ -147,4 +147,20 @@ bool Board::recursive(QString string,int index, int start,QVector<int> path)
         }
     }
     return false;
+}
+
+void Board::lightSeletedWords()
+{
+    for(int i=0;i<letterPath.size();++i)
+    {
+        this->cubes[letterPath.at(i)]->lightLetter();
+    }
+}
+
+void Board::extinguishSeletedWords()
+{
+    for(int i=0;i<letterPath.size();++i)
+    {
+        this->cubes[letterPath.at(i)]->extinguishLetter();
+    }
 }

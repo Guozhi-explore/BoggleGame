@@ -11,6 +11,8 @@ public:
     explicit Cube(QWidget *parent = nullptr);
     void setLetter(QString l);
     QString getLetter();
+    void lightLetter();
+    void extinguishLetter();
 
 signals:
 

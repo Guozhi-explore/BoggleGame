@@ -29,3 +29,12 @@ QString Cube::getLetter()
 {
     return this->letter;
 }
+
+void Cube::lightLetter(){
+    label->setStyleSheet("background-color: yellow; border-radius: 15px; border: 2px solid");
+}
+
+void Cube::extinguishLetter()
+{
+    label->setStyleSheet("background-color: white; border-radius: 15px; border: 2px solid");
+}

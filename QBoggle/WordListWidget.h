@@ -10,12 +10,12 @@ class WordListWidget : public QWidget
     Q_OBJECT
 public:
     explicit WordListWidget(QWidget *parent = nullptr, QString label = "");
-    void addScore(int s);
-    void addWord(QString word);
     void reset();
 signals:
 
 public slots:
+    void addScore(int s);
+    void addWord(QString word);
 
 private:
     QString label;

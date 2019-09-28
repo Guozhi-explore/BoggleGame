@@ -22,6 +22,9 @@ BoggleWindow::BoggleWindow(QWidget *parent)
     console->setGeometry(30, 320, 740, 260);
 
     this->connect(console,SIGNAL(newLineWritten(QString)),board,SLOT(receiveInput(QString)));
+    this->connect(board,SIGNAL(addScoreOfMe(int)),me,SLOT(addScore(int)));
+    this->connect(board,SIGNAL(addWordToMe(QString)),me,SLOT(addWord(QString)));
+    this->connect(console,SIGNAL(extinguishSeletedWords()),board,SLOT(extinguishSeletedWords()));
 
     QFile qFile(":/res/EnglishWords.txt");
     if (!qFile.open(QIODevice::ReadOnly)) {

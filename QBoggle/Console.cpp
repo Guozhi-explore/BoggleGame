@@ -34,5 +34,10 @@ void Console::keyPressEvent(QKeyEvent *event)
         QString lastLine = cursor.selectedText();
         newLineWritten(lastLine);
     }
+    else{
+        //使得点亮的字母块恢复成normal
+        extinguishSeletedWords();
+    }
+
     QTextEdit::keyPressEvent(event);
 }
