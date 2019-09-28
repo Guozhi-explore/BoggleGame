@@ -18,6 +18,8 @@ public:
 signals:
     void addScoreOfMe(int score);
     void addWordToMe(QString word);
+    void addScoreOfComputer(int score);
+    void addWordToComputer(QString word);
 public slots:
     void receiveInput(QString str);
     void extinguishSeletedWords();
@@ -26,12 +28,16 @@ private:
     int size;
     Cube **cubes;
     QString *letters;
+    QVector<QString> selectedWords;
     QVector<int> letterPath;
     inline int index(int i, int j) { return i * size + j; }
     static const QString STANDARD_CUBES[16];
     static const QString BIG_BOGGLE_CUBES[25];
-    bool humanRecursive(QString string);
+    void humanRecursive(QString string);
     bool recursive(QString string,int index,int start,QVector<int>path);
+    void computerRecursive();
+    void computerrecursive(QString string,int start,QVector<int> path);
+    Lexicon *lex;
 };
 
 #endif // BOARD_H

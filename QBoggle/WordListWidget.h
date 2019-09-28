@@ -22,6 +22,7 @@ private:
     QList<QString> words;
     int score;
     WordTable *wordTable;
+    //QLabel *scoreLabels;
 };
 
 #endif // WORDLISTWIDGET_H

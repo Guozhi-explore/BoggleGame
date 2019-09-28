@@ -38,11 +38,13 @@ WordListWidget::WordListWidget(QWidget *parent, QString label) : QWidget(parent)
 void WordListWidget::addScore(int score)
 {
     this->score += score;
+   // scoreLabel->setText(QString::number(score));
 }
 void WordListWidget::addWord(QString word)
 {
     this->words.append(word);
     this->wordTable->addWord(word);
+
 }
 void WordListWidget::reset()
 {

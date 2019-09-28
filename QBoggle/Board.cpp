@@ -49,6 +49,11 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
         }
     }
     // this->setStyleSheet("background-color:grey; border: 3px solid");
+    QFile qFile(":/res/EnglishWords.txt");
+    if (!qFile.open(QIODevice::ReadOnly)) {
+        throw new std::runtime_error("Resource file not found!");
+    }
+    lex=new Lexicon(qFile);
 
 }
 
@@ -87,34 +92,31 @@ void Board::shake()
 
 void Board::receiveInput(QString str)
 {
-    QFile qFile(":/res/EnglishWords.txt");
-    if (!qFile.open(QIODevice::ReadOnly)) {
-        throw new std::runtime_error("Resource file not found!");
-    }
-    Lexicon lex(qFile);
-    if(str.size()>=4&&lex.containsPrefix(str.toStdString()))
+     str=str.toUpper();
+    if(str.size()>=4&&!selectedWords.contains(str)&&lex->contains(str.toStdString()))
     {
-
+        humanRecursive(str);
     }
-    str=str.toUpper();
-    if(humanRecursive(str))
+    if(str.size()==0)
     {
-        this->addScoreOfMe(str.size()-3);
-        this->addWordToMe(str);
-        /*light suitable words in the board*/
-        this->lightSeletedWords();
+        computerRecursive();
     }
 }
 
-bool Board::humanRecursive(QString string)
+void Board::humanRecursive(QString string)
 {
     QVector<int> path;
     for(int i=0;i<size*size;++i)
     {
         if(recursive(string,0,i,path)==true)
-            return true;
+        {
+            this->addScoreOfMe(string.size()-3);
+            this->addWordToMe(string);
+            /*light suitable words in the board*/
+            this->lightSeletedWords();
+            selectedWords.append(string);
+        }
     }
-    return false;
 }
 
 bool Board::recursive(QString string,int index, int start,QVector<int> path)
@@ -162,5 +164,45 @@ void Board::extinguishSeletedWords()
     for(int i=0;i<letterPath.size();++i)
     {
         this->cubes[letterPath.at(i)]->extinguishLetter();
+    }
+}
+
+void Board::computerRecursive()
+{
+    QVector<int> path;
+    QString string;
+    for(int i=0;i<size*size;++i)
+    {
+        computerrecursive(string,i,path);
+    }
+}
+
+void Board::computerrecursive(QString string, int start, QVector<int> path)
+{
+    int adjacent;
+    if(path.contains(start))
+        return;
+    string.append(cubes[start]->getLetter().at(0));
+    path.append(start);
+    if(lex->containsPrefix(string.toStdString()))
+    {
+        /* string is a legal word*/
+        if(string.size()>=4&&lex->contains(string.toStdString())&&!this->selectedWords.contains(string))
+        {
+            this->selectedWords.append(string);
+            this->addScoreOfComputer(string.size()-3);
+            this->addWordToComputer(string);
+        }
+        for(int row=-1;row<=1;++row)
+        {
+            for(int column=-1;column<=1;++column)
+            {
+                adjacent=start+row*size+column;
+                if(adjacent>=0&&adjacent<size*size&&!path.contains(adjacent))
+                {
+                    computerrecursive(string,adjacent,path);
+                }
+            }
+        }
     }
 }
