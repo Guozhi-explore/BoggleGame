@@ -34,7 +34,7 @@ BoggleWindow::BoggleWindow(QWidget *parent)
         std::cout << s << std::endl;
     }
     */
-    console->write("Welcome to the game Boggle!\n");
+    console->write("[gz]: Welcome to the game Boggle!\n");
 }
 
 BoggleWindow::~BoggleWindow()
@@ -46,5 +46,5 @@ void BoggleWindow::replay()
     me->reset();
     computer->reset();
     board->shake();
-    console->write("welcome to play Boggle again!\n");
+    console->write("[gz]: Welcome to play Boggle again!\n");
 }
