@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Board_t {
-    QByteArrayData data[12];
-    char stringdata0[133];
+    QByteArrayData data[13];
+    char stringdata0[138];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,13 +42,14 @@ QT_MOC_LITERAL(7, 62, 17), // "addWordToComputer"
 QT_MOC_LITERAL(8, 80, 12), // "receiveInput"
 QT_MOC_LITERAL(9, 93, 3), // "str"
 QT_MOC_LITERAL(10, 97, 22), // "extinguishSeletedWords"
-QT_MOC_LITERAL(11, 120, 12) // "receiveClick"
+QT_MOC_LITERAL(11, 120, 12), // "receiveClick"
+QT_MOC_LITERAL(12, 133, 4) // "size"
 
     },
     "Board\0addScoreOfMe\0\0score\0addWordToMe\0"
     "word\0addScoreOfComputer\0addWordToComputer\0"
     "receiveInput\0str\0extinguishSeletedWords\0"
-    "receiveClick"
+    "receiveClick\0size"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,7 +86,7 @@ static const uint qt_meta_data_Board[] = {
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    9,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,    9,
+    QMetaType::Void, QMetaType::Int,   12,
 
        0        // eod
 };
@@ -102,7 +103,7 @@ void Board::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         case 3: _t->addWordToComputer((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 4: _t->receiveInput((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 5: _t->extinguishSeletedWords(); break;
-        case 6: _t->receiveClick((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 6: _t->receiveClick((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

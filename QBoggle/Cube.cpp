@@ -1,5 +1,5 @@
 #include "Cube.h"
-
+#include<QDebug>
 #include <QHBoxLayout>
 
 Cube::Cube(QWidget *parent) : QWidget(parent)
@@ -39,7 +39,7 @@ void Cube::lightLetter(){
 
 void Cube::extinguishLetter()
 {
-    isclicked=false;
+    this->isclicked=false;
     label->setStyleSheet("background-color: white; border-radius: 15px; border: 2px solid");
 }
 
@@ -48,8 +48,18 @@ void Cube::clicked()
     /*ensure a cube can only be clicked once during a search procedure*/
     if(isclicked==false)
     {
-        lightLetter();
-        emit mouseClickCube(letter);
         isclicked=true;
+        lightLetter();
+        emit mouseClickCube(size);
     }
+}
+
+int Cube::getSize()
+{
+    return size;
+}
+
+void Cube::setSize(int size)
+{
+    this->size=size;
 }

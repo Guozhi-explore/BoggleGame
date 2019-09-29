@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Cube_t {
     QByteArrayData data[5];
-    char stringdata0[36];
+    char stringdata0[34];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,11 +34,11 @@ static const qt_meta_stringdata_Cube_t qt_meta_stringdata_Cube = {
 QT_MOC_LITERAL(0, 0, 4), // "Cube"
 QT_MOC_LITERAL(1, 5, 14), // "mouseClickCube"
 QT_MOC_LITERAL(2, 20, 0), // ""
-QT_MOC_LITERAL(3, 21, 6), // "letter"
-QT_MOC_LITERAL(4, 28, 7) // "clicked"
+QT_MOC_LITERAL(3, 21, 4), // "size"
+QT_MOC_LITERAL(4, 26, 7) // "clicked"
 
     },
-    "Cube\0mouseClickCube\0\0letter\0clicked"
+    "Cube\0mouseClickCube\0\0size\0clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,7 +62,7 @@ static const uint qt_meta_data_Cube[] = {
        4,    0,   27,    2, 0x0a /* Public */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void, QMetaType::Int,    3,
 
  // slots: parameters
     QMetaType::Void,
@@ -76,14 +76,14 @@ void Cube::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         Cube *_t = static_cast<Cube *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->mouseClickCube((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 0: _t->mouseClickCube((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (Cube::*)(QString );
+            using _t = void (Cube::*)(int );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Cube::mouseClickCube)) {
                 *result = 0;
                 return;
@@ -129,7 +129,7 @@ int Cube::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Cube::mouseClickCube(QString _t1)
+void Cube::mouseClickCube(int _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

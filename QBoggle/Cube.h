@@ -14,9 +14,11 @@ public:
     QString getLetter();
     void lightLetter();
     void extinguishLetter();
+    int getSize();
+    void setSize(int size);
 
 signals:
-    void mouseClickCube(QString letter);
+    void mouseClickCube(int size);
 public slots:
     void clicked();
 
@@ -24,6 +26,7 @@ private:
     QString letter;
     ClickedLabel *label;
     bool isclicked=false;
+    int size;
 };
 
 #endif // CUBE_H

@@ -23,13 +23,14 @@ signals:
 public slots:
     void receiveInput(QString str);
     void extinguishSeletedWords();
-    void receiveClick(QString str);
+    void receiveClick(int size);
 
 private:
     int size;
     Cube **cubes;
     QString *letters;
     QString clickLetter;
+    QVector<int> clickPath;
     QVector<QString> selectedWords;
     QVector<int> letterPath;
     inline int index(int i, int j) { return i * size + j; }

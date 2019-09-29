@@ -38,9 +38,10 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             this->cubes[index(i, j)] = new Cube(this);
+            this->cubes[index(i,j)]->setSize(index(i,j));
 
             /* connect signal and slot in message of cube click*/
-            connect(this->cubes[index(i,j)],SIGNAL(mouseClickCube(QString)),this,SLOT(receiveClick(QString)));
+            connect(this->cubes[index(i,j)],SIGNAL(mouseClickCube(int)),this,SLOT(receiveClick(int)));
 
             layout->addWidget(this->cubes[index(i, j)], i, j, Qt::AlignmentFlag::AlignCenter);
         }
@@ -125,23 +126,41 @@ void Board::receiveInput(QString str)
     }
 }
 
-void Board::receiveClick(QString str)
+void Board::receiveClick(int pos)
 {
-    str=str.toUpper();
-    this->clickLetter.append(str);
+    this->clickPath.append(pos);
+    this->clickLetter.append(cubes[pos]->getLetter());
+    bool isadjacent=false;
+
     /* current click letter can't format in the board, discard it*/
-    if(humanRecursive(this->clickLetter)==false)
+    if(clickPath.size()>1)
     {
-        this->clickLetter.clear();
-        extinguishSeletedWords();
-        return;
+        int rear=clickPath.at(clickPath.size()-2),adjacent;
+        for(int row=-1;row<=1;++row)
+        {
+            for(int column=-1;column<=1;++column)
+            {
+                adjacent=rear+row*size+column;
+                if(adjacent<0||adjacent>=size*size||((adjacent%size==0&&rear%size==size-1)||(adjacent%size==size-1&&rear%size==0)))
+                    continue;
+                if(adjacent==pos)
+                    isadjacent=true;
+            }
+        }
+        if(isadjacent==false)
+        {
+            extinguishSeletedWords();
+            this->clickLetter.clear();
+            return;
+        }
+
     }
 
     /*the clickletter is illegal,discard it*/
     if(!lex->containsPrefix(clickLetter.toStdString()))
     {
-        this->clickLetter.clear();
         extinguishSeletedWords();
+        this->clickLetter.clear();
         return;
     }
 

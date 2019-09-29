@@ -23,14 +23,14 @@ void Console::keyPressEvent(QKeyEvent *event)
 {
     /*play rules:
      * press enter to confirm word
-     * press shift to replay game
+     * press control to replay game
      * */
     if (event->key() == Qt::Key_Backspace)
         return;
     if (event->key() == Qt::Key_Delete)
         return;
     /* kick shift to replay buggle game*/
-    if(event->key()==Qt::Key_Shift)
+    if(event->key()==Qt::Key_Control)
         replay();
     if (this->textCursor().hasSelection())
         return;
