@@ -89,6 +89,11 @@ void Board::shake()
         for (int j = 0; j < size; ++j)
         {
             this->cubes[index(i, j)]->setLetter(this->letters[index(i, j)].at(0));
+            if(this->cubes[index(i,j)]->getLetter().compare("Q")==0)
+            {
+                qDebug()<<"qu";
+                this->cubes[index(i, j)]->setLetter("Qu");
+            }
         }
     }
 }
@@ -96,7 +101,7 @@ void Board::shake()
 void Board::receiveInput(QString str)
 {
      str=str.toUpper();
-    if(str.size()>=4&&!selectedWords.contains(str)&&lex->contains(str.toStdString()))
+    if(str.size()>=4&&!selectedWords.contains(str)||lex->contains(str.toStdString()))
     {
         humanRecursive(str);
     }
@@ -125,7 +130,9 @@ void Board::humanRecursive(QString string)
 bool Board::recursive(QString string,int index, int start,QVector<int> path)
 {
     int adjacent;
-    if(string.at(index)!=this->cubes[start]->getLetter().at(0))
+    int length=cubes[start]->getLetter().length();
+    QString toCompare=string.mid(index,length);
+    if(toCompare.compare(this->cubes[start]->getLetter().toUpper()))
     {
         return false;
     }
@@ -146,7 +153,7 @@ bool Board::recursive(QString string,int index, int start,QVector<int> path)
                     continue;
                 if(adjacent<0||adjacent>=size*size||((adjacent%size==0&&start%size==size-1)||(adjacent%size==size-1&&start%size==0)))
                     continue;
-                if(recursive(string,index+1,adjacent,path)==true)
+                if(recursive(string,index+length,adjacent,path)==true)
                     return true;
             }
         }
@@ -185,7 +192,7 @@ void Board::computerrecursive(QString string, int start, QVector<int> path)
     int adjacent;
     if(path.contains(start))
         return;
-    string.append(cubes[start]->getLetter().at(0));
+    string.append(cubes[start]->getLetter());
     path.append(start);
     if(lex->containsPrefix(string.toStdString()))
     {
