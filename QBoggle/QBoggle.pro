@@ -32,7 +32,8 @@ SOURCES += \
     WordTable.cpp \
     Console.cpp \
     Cube.cpp \
-    lexicon.cpp
+    lexicon.cpp \
+    clickedlabel.cpp
 
 HEADERS += \
         BoggleWindow.h \
@@ -41,7 +42,8 @@ HEADERS += \
     WordTable.h \
     Console.h \
     Cube.h \
-    lexicon.h
+    lexicon.h \
+    clickedlabel.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

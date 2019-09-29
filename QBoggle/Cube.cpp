@@ -4,7 +4,7 @@
 
 Cube::Cube(QWidget *parent) : QWidget(parent)
 {
-    label = new QLabel();
+    label = new ClickedLabel();
     label->setText("");
     label->setAlignment(Qt::AlignCenter);
     QFont font = label->font();
@@ -16,6 +16,9 @@ Cube::Cube(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout *layout = new QHBoxLayout();
     layout->addWidget(label);
+
+    connect(label,SIGNAL(Clicked(ClickedLabel*)),this,SLOT(clicked()));
+    //connect(label,SIGNAL())
     setLayout(layout);
 }
 
@@ -36,5 +39,17 @@ void Cube::lightLetter(){
 
 void Cube::extinguishLetter()
 {
+    isclicked=false;
     label->setStyleSheet("background-color: white; border-radius: 15px; border: 2px solid");
+}
+
+void Cube::clicked()
+{
+    /*ensure a cube can only be clicked once during a search procedure*/
+    if(isclicked==false)
+    {
+        lightLetter();
+        emit mouseClickCube(letter);
+        isclicked=true;
+    }
 }

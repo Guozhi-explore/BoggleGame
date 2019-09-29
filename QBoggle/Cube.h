@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QWidget>
+#include "clickedlabel.h"
 
 class Cube : public QWidget
 {
@@ -15,12 +16,14 @@ public:
     void extinguishLetter();
 
 signals:
-
+    void mouseClickCube(QString letter);
 public slots:
+    void clicked();
 
 private:
     QString letter;
-    QLabel *label;
+    ClickedLabel *label;
+    bool isclicked=false;
 };
 
 #endif // CUBE_H

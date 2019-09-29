@@ -25,6 +25,7 @@ const QString Board::BIG_BOGGLE_CUBES[25]  = {
 Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(parent)
 {
     this->size = size;
+    this->clickLetter.clear();
     this->cubes = new Cube*[size * size];
     this->letters = new QString[size * size];
     for (int i = 0; i < size * size; ++i)
@@ -37,12 +38,18 @@ Board::Board(QWidget *parent, int size, const QString *cubeLetters) : QWidget(pa
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             this->cubes[index(i, j)] = new Cube(this);
+
+            /* connect signal and slot in message of cube click*/
+            connect(this->cubes[index(i,j)],SIGNAL(mouseClickCube(QString)),this,SLOT(receiveClick(QString)));
+
             layout->addWidget(this->cubes[index(i, j)], i, j, Qt::AlignmentFlag::AlignCenter);
         }
     }
     setLayout(layout);
 
     shake();
+
+
 
     // this->setStyleSheet("background-color:grey; border: 3px solid");
     QFile qFile(":/res/EnglishWords.txt");
@@ -101,9 +108,16 @@ void Board::shake()
 void Board::receiveInput(QString str)
 {
      str=str.toUpper();
-    if(str.size()>=4&&!selectedWords.contains(str)||lex->contains(str.toStdString()))
+    if(str.size()>=4&&!selectedWords.contains(str)&&lex->contains(str.toStdString()))
     {
-        humanRecursive(str);
+        if(humanRecursive(str)==true)
+        {
+            this->addScoreOfMe(str.size()-3);
+            this->addWordToMe(str);
+            /*light suitable words in the board*/
+            this->lightSeletedWords();
+            selectedWords.append(str);
+        }
     }
     if(str.size()==0)
     {
@@ -111,20 +125,48 @@ void Board::receiveInput(QString str)
     }
 }
 
-void Board::humanRecursive(QString string)
+void Board::receiveClick(QString str)
+{
+    str=str.toUpper();
+    this->clickLetter.append(str);
+    /* current click letter can't format in the board, discard it*/
+    if(humanRecursive(this->clickLetter)==false)
+    {
+        this->clickLetter.clear();
+        extinguishSeletedWords();
+        return;
+    }
+
+    /*the clickletter is illegal,discard it*/
+    if(!lex->containsPrefix(clickLetter.toStdString()))
+    {
+        this->clickLetter.clear();
+        extinguishSeletedWords();
+        return;
+    }
+
+    /* clickletter not appeared before, and is legal, human win the score*/
+    if(this->clickLetter.size()>=4 && !selectedWords.contains(clickLetter)&&lex->contains(clickLetter.toStdString()))
+    {
+        this->addScoreOfMe(clickLetter.size()-3);
+        this->addWordToMe(clickLetter);
+        selectedWords.append(clickLetter);
+        this->clickLetter.clear();
+        extinguishSeletedWords();
+    }
+}
+
+bool Board::humanRecursive(QString string)
 {
     QVector<int> path;
     for(int i=0;i<size*size;++i)
     {
         if(recursive(string,0,i,path)==true)
         {
-            this->addScoreOfMe(string.size()-3);
-            this->addWordToMe(string);
-            /*light suitable words in the board*/
-            this->lightSeletedWords();
-            selectedWords.append(string);
+            return true;
         }
     }
+    return false;
 }
 
 bool Board::recursive(QString string,int index, int start,QVector<int> path)
@@ -171,9 +213,9 @@ void Board::lightSeletedWords()
 
 void Board::extinguishSeletedWords()
 {
-    for(int i=0;i<letterPath.size();++i)
+    for(int i=0;i<size*size;++i)
     {
-        this->cubes[letterPath.at(i)]->extinguishLetter();
+        this->cubes[i]->extinguishLetter();
     }
 }
 

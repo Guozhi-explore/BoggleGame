@@ -23,17 +23,19 @@ signals:
 public slots:
     void receiveInput(QString str);
     void extinguishSeletedWords();
+    void receiveClick(QString str);
 
 private:
     int size;
     Cube **cubes;
     QString *letters;
+    QString clickLetter;
     QVector<QString> selectedWords;
     QVector<int> letterPath;
     inline int index(int i, int j) { return i * size + j; }
     static const QString STANDARD_CUBES[16];
     static const QString BIG_BOGGLE_CUBES[25];
-    void humanRecursive(QString string);
+    bool humanRecursive(QString string);
     bool recursive(QString string,int index,int start,QVector<int>path);
     void computerRecursive();
     void computerrecursive(QString string,int start,QVector<int> path);
